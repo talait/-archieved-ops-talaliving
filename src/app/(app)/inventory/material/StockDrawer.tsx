@@ -256,8 +256,16 @@ export function StockDrawer({
                         {m.ref_no}
                         {/* A reference nothing follows is a reference nothing
                             checks — which is how nine seeded issues pointed at
-                            work orders that had never existed (F86). */}
-                        {m.ref_missing && <span className="ml-1">· SPK ini tidak ada</span>}
+                            work orders that had never existed (F86), and twelve
+                            more at tanda terima that never existed (F99).
+                            The word has to follow the reference: calling a
+                            missing receipt an SPK is a second wrong answer
+                            underneath the first. */}
+                        {m.ref_missing && (
+                          <span className="ml-1">
+                            · {m.ref_no.startsWith("rcv-") ? "tanda terima ini" : "SPK ini"} tidak ada
+                          </span>
+                        )}
                       </span>
                     )}
                     <span className="min-w-[160px] flex-1 text-[11px] text-slate-500">

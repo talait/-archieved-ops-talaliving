@@ -4202,3 +4202,75 @@ clean.
 
 Both branches were exercised before it was trusted — a reference repointed at
 `att_99`, a vendor given a neighbour's id — and both restored.
+
+## F99 — the check that would not have caught the bug it was written for
+
+F98 built `check:fixtures` to stop F84 and F86 happening again. Reading it back
+the next morning, it would have caught F84 and **not F86.**
+
+F86 was nine stock issues pointing at work orders that never existed. A work
+order is `spk-26-08-17_01`. The check's `ID_SHAPE` is `^([a-z]{2,8})_…` — one
+prefix, one underscore. `spk-26-08-17_01` has hyphens and never matches it.
+The check covered `att_40` and `usr_evin` and missed the entire second
+referencing scheme: **196 document numbers across 23 prefixes**, which is where
+doc-number references live and where F86 lived.
+
+A check written to prevent a specific bug that cannot see that bug is worse than
+no check, because it is also a claim that the ground is covered.
+
+### What it found once it could see
+
+**`spk-26-08-17_01` — a work order that has never existed.** Two board moves in
+`timber.ts` issue fourteen boards of jati against it on 18 August and return
+three on the 29th. F86 fixed the work-order references in `stock.ts` and never
+looked at `timber.ts`. Repointed to `spk-26-08-10_01` — wo_05, *Nakas jati
+kecil*, in-house, 10 to 29 August — which is the same wood in the same weeks.
+Quantities untouched, as in F86.
+
+**`trx-26-09-09_004` — a transaction the audit trail says it voided.** `aud_s03`
+records a VOID of Rp 4.150.000 with a reason, a before and an after. The ledger
+has `_001` and `_002` and nothing else. That is A2 exactly backwards: **nothing
+is deleted**, so a voided row stays with its amount zeroed and its reason kept —
+which is what `trx-26-08-29_004` does three lines up. The row is added rather
+than the audit repointed, because the audit describes a real event and the
+existing VOID is a different one (plywood entered twice, not a wrong account).
+VOID is excluded from every derivation, so nothing moves but the story.
+
+**Twelve rack movements quoting five tanda terima that do not exist** — and this
+one had a sentence guarding it. `inventory-derive.ts` checked `spk-` references
+only, under a comment saying `rcv-…` "lives elsewhere". It does not.
+`state.receipts` is right there, `stockFromReceipt` refuses outright when a
+`receipt_no` does not resolve, and so a rack movement quoting a missing tanda
+terima is **a state the API could never have produced**. *A rule in a comment
+does not protect the code under it*, and this is the sharper version: an excuse
+in a comment hid what the code was skipping, for six milestones.
+
+The check now resolves `rcv-` too, and the screen says *tanda terima ini tidak
+ada* rather than *SPK ini tidak ada* — calling a missing receipt an SPK is a
+second wrong answer underneath the first.
+
+The five are **not** repointed. The fourteen receipts that exist cover entirely
+different items, so picking one by nearest date would replace a reference to
+nothing with a reference to the wrong thing — worse, and far harder to notice
+later. Whether those goods should have a tanda terima at all is the owner's
+question (backlog S4). Until it is answered the app says so, which is the honest
+state: **a figure may be missing, never quietly wrong.**
+
+### How the doc-number rule works without a list anybody maintains
+
+There is no `id:` convention to lean on. `wo_no` holds `spk-`, `box_no` holds
+`kol-`, `move_no` holds `ppn-` — the field name says nothing about the prefix, so
+no map could be derived from it and a hand-written one would rot.
+
+What the data does say is which field carries the **most distinct values** of a
+kind: seven `spk-` numbers live in `wo_no` and two in `ref_no`, and the seven are
+the work orders. So the fattest field declares and every other mention refers.
+Base and suffixed numbers are counted apart — `po-…_01` is an order and
+`po-…_01-M01` a schedule term — because together their declaring fields tie.
+
+Two limits, both stated in the file rather than implied away. `line_no_full` is
+**composed at runtime** from the document number and the line number, so six real
+PR lines read as dangling until `pr/L` was declared a computed kind; a text scan
+cannot see a value no line contains. And the five unresolved receipts sit in an
+`UNRESOLVED` set with the reason, on the same ratchet as `KNOWN_GAP` — declared
+so they cannot be quietly forgotten, and so a *new* one still fails.

@@ -67,6 +67,11 @@ const TRX_SEEDS: TrxSeed[] = [
   ["trx-26-09-08_002", "2026-09-08", "acc_bca271", "OUT", 3_680_000, "SUPPLIERS", "vnd_12", "prj_25009", "KAYU SUNGKAI PAPAN 2CM, 20 lembar", "POSTED"],
   ["trx-26-09-09_001", "2026-09-09", "acc_bni325", "OUT", 31_200_000, "RECCURING - PAYROLL", null, null, "Weekly payroll W37", "COMPLETED"],
   ["trx-26-09-09_002", "2026-09-09", "acc_petty", "OUT", 96_000, "OFFICE", null, null, "Refreshments, production meeting", "COMPLETED"],
+  /* The row `aud_s03` says it voided. The audit trail asserted a VOID of
+     Rp 4.150.000 and the ledger had no such transaction at all (F99) —
+     which is A2 exactly backwards: nothing is deleted, so a voided row
+     stays, amount zeroed and reason kept, like trx-26-08-29_004 above. */
+  ["trx-26-09-09_004", "2026-09-09", "acc_bca271", "OUT", 0, "SUPPLIERS", "vnd_03", null, "Salah akun — dicatat di BCA 271, seharusnya JAGO", "VOID"],
   /* The two statutory invoices, paid. Kesehatan is deliberately paid at
      AUGUST's amount — still charging for Made Suparta, who came off the roll on
      31 August. That is the leak the owner described, and it is the case the

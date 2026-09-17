@@ -226,11 +226,22 @@ function moveView(state: DemoState, m: StockMove): StockMoveView {
     item_name: state.items.find((i) => i.code === m.item_code)?.name ?? m.item_code,
     location_name: state.stock_locations.find((l) => l.code === m.location)?.name ?? m.location,
     by_name: state.users.find((u) => u.id === m.moved_by)?.full_name ?? "—",
-    /* Only SPK references are checked, because they are the only ones this
-       state can resolve: `rcv-…` and an opname reference live elsewhere. */
-    ref_missing: m.ref_no != null
-      && m.ref_no.startsWith("spk-")
-      && !state.work_orders.some((w) => w.wo_no === m.ref_no),
+    /* A reference nothing follows is a reference nothing checks (F86).
+     *
+     *  This used to check `spk-` alone, excused by a comment saying `rcv-`
+     *  "lives elsewhere". It does not: `state.receipts` is right here, and
+     *  `stockFromReceipt` refuses outright when `receipt_no` does not resolve —
+     *  so a rack movement quoting a tanda terima that does not exist is a state
+     *  the API could never have produced. Twelve of them were sitting in the
+     *  seed behind that sentence (F99). **A rule in a comment does not protect
+     *  the code under it, and an excuse in one can hide what the code skips.** */
+    ref_missing: m.ref_no != null && (
+      m.ref_no.startsWith("spk-")
+        ? !state.work_orders.some((w) => w.wo_no === m.ref_no)
+        : m.ref_no.startsWith("rcv-")
+          ? !state.receipts.some((r) => r.receipt_no === m.ref_no)
+          : false
+    ),
   };
 }
 

@@ -159,7 +159,7 @@ export const BOARD_MOVES: BoardMove[] = [
     board_key: "Jati|30x200x3000", species: "Jati",
     thickness_mm: 30, width_mm: 200, length_mm: 3000,
     qty: -14, kind: "issue",
-    purchase_id: "lgp_01", ref_no: "spk-26-08-17_01",
+    purchase_id: "lgp_01", ref_no: "spk-26-08-10_01",
     reason: null, by: "usr_made",
   },
   {
@@ -177,7 +177,7 @@ export const BOARD_MOVES: BoardMove[] = [
     board_key: "Jati|30x200x3000", species: "Jati",
     thickness_mm: 30, width_mm: 200, length_mm: 3000,
     qty: 3, kind: "return",
-    purchase_id: "lgp_01", ref_no: "spk-26-08-17_01",
+    purchase_id: "lgp_01", ref_no: "spk-26-08-10_01",
     reason: "Sisa potong, masih utuh.", by: "usr_made",
   },
   {
