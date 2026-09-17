@@ -29,13 +29,19 @@ export function CardHeader({
 }) {
   return (
     <div className={cn("flex items-start justify-between gap-3 border-b border-slate-100 px-5 py-4", className)}>
-      <div className="flex items-start gap-3">
+      {/* `min-w-0` on both, because a flex item defaults to `min-width: auto`
+          and therefore refuses to shrink below its content — so a long subtitle
+          made the whole card 653px wide inside a 390px phone (F100). It was
+          invisible because the app shell scrolls: the overflow panned inside
+          `main` instead of the document, so nothing looked broken unless you
+          dragged the page sideways. */}
+      <div className="flex min-w-0 items-start gap-3">
         {Icon && (
           <span className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-lg bg-brand-50 text-brand-600">
             <Icon className="h-4 w-4" />
           </span>
         )}
-        <div>
+        <div className="min-w-0">
           <h3 className="text-sm font-semibold text-slate-800">{title}</h3>
           {subtitle && <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>}
         </div>

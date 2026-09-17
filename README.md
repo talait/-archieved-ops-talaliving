@@ -1,40 +1,63 @@
 # Manufaktur OS
 
-Kerangka aplikasi manajemen internal untuk manufaktur furnitur. **Belum ada
-backend** — yang ada baru lapisan tampilan, navigasi, dan model izin.
+Sistem operasi internal PT Talahome / Tala Living — pengganti `john-lau`,
+Google Sheets dan Google Chat.
+
+**Fase 1 selesai**: seluruh alur kerja sebagai frontend di atas data demo yang
+hidup di browser. **Fase 2 berjalan**: backend Supabase, dan belum tersambung ke
+layar mana pun.
 
 ```bash
 npm install
-npm run dev     # http://localhost:3000
+npm run dev              # http://localhost:3000
 ```
 
 ## Keadaan sekarang
 
 | | Status |
 |---|---|
-| Shell aplikasi (sidebar, topbar, layout) | Jadi |
-| Design system (token, komponen, grafik) | Jadi |
-| Navigasi 9 seksi / 36 rute | Jadi |
-| Katalog izin + 8 peran | Jadi (frontend) |
-| Halaman Dashboard | Jadi, **data contoh** |
-| 35 halaman modul lain | Placeholder |
-| Backend | **Belum ada** — `backend/` masih folder kosong |
-| Autentikasi | **Belum ada** — peran dipilih lewat dropdown dev di topbar |
+| Rute aplikasi | **62**, tidak ada placeholder yang tersisa |
+| Sebelas layanan (procurement, accounting, HR, produksi, inventory, marketing, delivery, dokumen, identitas, aset, asisten) | Jadi, di atas **data demo** |
+| Migrasi Supabase | 22 berkas — `ops_core` 13 tabel, `ops_procure` 22, `ops_acct` 11; `ops_hr` / `ops_inv` / `ops_prod` dibuat kosong |
+| Klien Supabase (`src/lib/api/`) | identity, procurement, accounting — **belum di-import layar mana pun**, dan masih kurang 43 fungsi (`npm run check:api`) |
+| Autentikasi | **Belum ada.** `/signin` adalah pemilih akun demo tanpa kata sandi, dan hanya dirender dalam mode demo |
+| Deployment | Belum pernah |
 
-## Sebelum ditunjukkan ke siapa pun
+Mode ditentukan satu tempat: `REAL` di `src/demo/api/index.ts`. Selama ia
+`false`, badge *Demo · data is not real*, tombol Reset dan pemilih akun tampil;
+ketiganya hilang sendiri kalau ia `true`. Lihat `docs/plan/deploy/README.md`
+sebelum men-deploy apa pun.
 
-Tiga nilai masih sementara dan sengaja ditaruh di satu tempat masing-masing:
+## Pemeriksaan
 
-1. **Nama aplikasi** — `src/lib/brand.ts`
-2. **Warna merek** — `tailwind.config.ts`, skala `brand` (sekarang `#2f6b52`,
-   placeholder). Kalau diganti, turunkan **seluruh** skala 50–950, jangan hanya
-   menukar `700`. Samakan juga `BRAND` di `src/components/charts/charts.tsx`
-   dan `themeColor` di `src/app/layout.tsx`.
-3. **Data contoh di Dashboard** — `src/app/(app)/dashboard/page.tsx`
+Semuanya juga berjalan di CI (`.github/workflows/checks.yml`). Jalankan dan
+**laporkan apa katanya**, bukan bahwa Anda menjalankannya.
 
-Dan satu yang harus **dihapus**, bukan diganti: pemilih peran di topbar
-(`src/components/layout/topbar.tsx`). Itu alat bantu pengembangan; di produksi
-peran datang dari sesi, bukan dari dropdown yang bisa diubah siapa saja.
+```bash
+npm run lint
+npx tsc --noEmit
+npm run check:fixtures   # kunci ganda & rujukan menggantung di seed — tanpa server
+npm run check:api        # jarak antara src/demo/api dan src/lib/api
+npm run build
+
+# butuh aplikasi berjalan (PROBE_URL, default http://localhost:3100)
+npm run check:refusals   # 28 probe penolakan di /demo        ~15 detik
+npm run check:routes     # 62 rute + menu 8 akun               ~10 menit
+npm run check:layout     # 62 rute x 390/768/1440              ~10 menit
+```
+
+Tiga di antaranya memakai daftar yang **dideklarasikan** — `KNOWN_GAP`,
+`INTENTIONAL_REDIRECTS`, `KNOWN_OVERFLOW`, `UNRESOLVED` — berisi keadaan yang
+sudah diketahui beserta alasannya. Yang **baru** tetap menggagalkan. Daftar itu
+menyusut adalah ukuran kemajuan yang jujur; jangan menambahnya tanpa menulis
+sebabnya.
+
+## Dokumen
+
+`docs/plan/` adalah catatan hidup dan diperbarui **dalam commit yang sama**
+dengan pekerjaannya: `README.md` (papan milestone), `findings.md` (apa yang
+layar ajarkan — deliverable Fase 1 sebesar aplikasinya sendiri),
+`06-decisions.md`, `backlog.md`, dan `deploy/README.md`.
 
 ## Cara kerjanya
 
@@ -72,30 +95,7 @@ grafik lewat screenshot otomatis, matikan animasinya sementara
 
 ## Yang perlu dibangun berikutnya
 
-Berdasarkan evaluasi, urutan yang disarankan:
-
-1. Backend + autentikasi + audit log (dibutuhkan semua modul)
-2. Master data, dengan **model satuan dan konversi yang benar** — lihat di bawah
-3. Procurement (PR → PO → Receiving) + lampiran
-4. Accounting dasar
-
-### Yang harus dirancang benar sejak awal
-
-**Satuan bukan sekadar label.** Kayu dibeli per m³, digergaji jadi papan dengan
-rendemen 45–60%, dikeringkan (susut lagi), lalu dipotong jadi komponen per
-batang dengan sisa potong 10–30%. Ini rantai konversi dengan rendemen, bukan
-buku stok sederhana. Butuh `UnitOfMeasure` + `UomConversion` + stok disimpan
-dalam satuan dasar. Kalau ini salah, Inventory, BOM, dan costing ikut salah.
-
-**Persetujuan berjenjang.** Satu kolom `approved_by` tidak cukup. Manufaktur
-butuh batas nominal (di bawah X cukup supervisor, di atas Y harus direksi) dan
-routing berdasarkan anggaran. Rancang sebagai tabel aturan, bukan `if` di
-service.
-
-**Lampiran dan alur masuk dari luar.** Kalau data masuk lewat Google Chat,
-pesan mendarat di tabel `submissions` berstatus pending dengan `message_id`
-sebagai kunci unik (anti-duplikat), lampiran ke object storage, dan hasil
-ekstraksi AI sebagai **usulan**. Manusia ber-izin menyetujuinya di dalam
-aplikasi sebelum menyentuh tabel bisnis. AI mengusulkan, tidak pernah
-memposting — kalau tidak, keanggotaan channel chat menjadi batas otorisasi ke
-buku besar.
+Ada di `docs/plan/backlog.md` — S2 (menutup jarak 43 fungsi di seam),
+S3 (sign-in dan menu pengguna untuk mode live), S4 (dua belas pergerakan rak
+tanpa tanda terima), S5 (tiga rute yang meluap di 390px), dan W3 (QR di PDF
+vendor, butuh rute publik).

@@ -11,7 +11,8 @@
     "check:api": "node scripts/api-conformance.mjs",
     "check:refusals": "node scripts/refusal-probe.mjs",
     "check:routes": "node scripts/route-sweep.mjs",
-    "check:fixtures": "node scripts/fixture-integrity.mjs"
+    "check:fixtures": "node scripts/fixture-integrity.mjs",
+    "check:layout": "node scripts/layout-sweep.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

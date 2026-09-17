@@ -4274,3 +4274,69 @@ PR lines read as dangling until `pr/L` was declared a computed kind; a text scan
 cannot see a value no line contains. And the five unresolved receipts sit in an
 `UNRESOLVED` set with the reason, on the same ratchet as `KNOWN_GAP` — declared
 so they cannot be quietly forgotten, and so a *new* one still fails.
+
+## F100 — the overflow that panned inside the shell
+
+The milestone board has claimed *390 / 768 / 1280: no overflow anywhere* twice,
+both times after somebody resized a window and looked. It is the last figure in
+this project still standing on an eye rather than a measurement, so it got one.
+
+It was false on six routes, and the reason nobody saw it is worth more than the
+faults.
+
+### Two obvious probes, both wrong
+
+**`documentElement.scrollWidth > innerWidth`** — the usual test. It passes every
+route here, and it passes at a **240px viewport**, where the app cannot possibly
+fit. It is not lying: the document really does not scroll sideways. A test that
+cannot fail at 240px is not measuring the thing.
+
+**Every element whose right edge passes the viewport** — the obvious correction,
+and it reports thirty-five faults on one ordinary screen. Every `table`,
+`thead`, `tr` and `th` inside a card that is *meant* to scroll. A wide table in
+an `overflow-x-auto` card is the design.
+
+The question is neither: **does anything overflow without a scroll container to
+hold it.** Same screen, thirty-five becomes zero.
+
+### And that was still wrong, for a CSS reason
+
+The corrected probe also passed a deliberately injected 2200px `div`. Twice —
+the first injection was invalid JSX, which the check swallowed along with the
+broken page, and that is a second finding in itself: **a route that fails to
+load was being counted as a route with no overflow.**
+
+The real cause is a CSS rule that is easy to know and easy to forget. `<main>`
+authors `overflow-y-auto` and nothing else — but **as soon as one axis is set,
+the other computes to `auto` rather than `visible`**. So `overflow-x` reads
+`auto` on the app shell of every page, the ancestor walk finds a holder every
+single time, and all overflow is declared intentional. One shell, one computed
+value, a check that could never fail.
+
+Which is also why nobody saw the faults by eye: the overflow **pans inside
+`main`**, not the document. The page looks right until you drag it sideways.
+
+### Six real faults, and one that is not
+
+With `<main>` excluded, six routes overflow at 390px. Three shared one cause:
+`CardHeader` had two flex children with no `min-w-0`, and a flex item defaults
+to `min-width: auto` — it refuses to shrink below its content, so a long
+subtitle made the card **653px wide inside a 390px phone**. Two words fixed
+`/hrd/iuran`, `/it/audit` and `/procurement/catalog`.
+
+Three remain and each needs its own look: on `/dashboard`, `/it/aturan-gaji` and
+`/inventory/penyesuaian` the card is over-wide for something in its **body**
+rather than its header. They are listed in `KNOWN_OVERFLOW` with that note and
+raised as **S5** — a check that arrives red is a check somebody switches off in
+a week.
+
+`/proyek/peti/label` is in the same list and is **not a fault**. It is an A4
+sheet measured in real millimetres so the preview and the paper are one object.
+A4 does not fit a phone, and making it fit would break the thing it exists for.
+The list separates the two, because *known* and *acceptable* are different words.
+
+Three checks in three days have now failed the same way — F96, F97, and this one
+twice over. The pattern is specific enough to name: **every one of them reported
+a clean sheet, and every one was believed until a number looked too tidy.** Zero
+is the most dangerous result a check can return, because it is what success looks
+like.
