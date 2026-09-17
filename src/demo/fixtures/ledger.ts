@@ -228,7 +228,7 @@ export const EVIDENCE_INBOX: EvidenceInboxRow[] = [
     produced_trx_id: null, produced_pr_line_no: null, similar_trx_nos: [],
   },
   {
-    id: "inb_05", ref_id: "upl_26-09-02_01~x0", origin: "chat", status: "CONFIRMED",
+    id: "inb_09", ref_id: "upl_26-09-02_01~x0", origin: "chat", status: "CONFIRMED",
     attachment_id: "att_14", reported_by: "usr_made", reported_at: "2026-09-02T18:30:00+08:00",
     extracted: { vendor_name: "TOKO BANGUNAN MAKMUR SENTOSA", document_date: "2026-09-02", amount_idr: 420_000, doc_type: "Receipt / Invoice / Nota", confidence: 91 },
     produced_trx_id: trxIdByNo("trx-26-09-07_001"), produced_pr_line_no: null, similar_trx_nos: [],

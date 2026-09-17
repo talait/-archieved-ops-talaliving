@@ -65,21 +65,32 @@ export const ATTACHMENTS: Attachment[] = [
   { id: "att_28", storage_path: "demo/2026-09/surat-jalan-veneer-0906.jpg", url: null, filename: "surat-jalan-veneer-0906.jpg", sha256: "ee11ff22aa31", mime: "image/jpeg", bytes: 571_006, uploaded_by: "usr_made", uploaded_at: "2026-09-06T11:22:00+08:00", source: "chat", duplicate_suspect: false },
   { id: "att_14", storage_path: "demo/2026-09/nota-rak-besi.jpg", url: null, filename: "nota-rak-besi.jpg", sha256: "2290ffcc7710", mime: "image/jpeg", bytes: 555_310, uploaded_by: "usr_made", uploaded_at: "2026-09-02T18:30:00+08:00", source: "chat", duplicate_suspect: false },
   /* HR. A doctor's letter and an overtime letter — evidence like any other. */
-  { id: "att_40", storage_path: "demo/2026-09/surat-dokter-siti.jpg", url: null, filename: "surat-dokter-siti.jpg", sha256: "d41a77bc0091", mime: "image/jpeg", bytes: 612_884, uploaded_by: "usr_wulan", uploaded_at: "2026-09-02T09:08:00+08:00", source: "web", duplicate_suspect: false },
-  { id: "att_41", storage_path: "demo/2026-09/surat-lembur-produksi-310826.pdf", url: null, filename: "surat-lembur-produksi-310826.pdf", sha256: "6b20aa41cc03", mime: "application/pdf", bytes: 96_441, uploaded_by: "usr_wulan", uploaded_at: "2026-09-01T08:18:00+08:00", source: "web", duplicate_suspect: false },
+  { id: "att_32", storage_path: "demo/2026-09/surat-dokter-siti.jpg", url: null, filename: "surat-dokter-siti.jpg", sha256: "d41a77bc0091", mime: "image/jpeg", bytes: 612_884, uploaded_by: "usr_wulan", uploaded_at: "2026-09-02T09:08:00+08:00", source: "web", duplicate_suspect: false },
+  { id: "att_33", storage_path: "demo/2026-09/surat-lembur-produksi-310826.pdf", url: null, filename: "surat-lembur-produksi-310826.pdf", sha256: "6b20aa41cc03", mime: "application/pdf", bytes: 96_441, uploaded_by: "usr_wulan", uploaded_at: "2026-09-01T08:18:00+08:00", source: "web", duplicate_suspect: false },
   { id: "att_44", storage_path: "demo/master/gambar-kerja-mj-220.pdf", url: null, filename: "gambar-kerja-mj-220.pdf", sha256: "aa71bb0044cc", mime: "application/pdf", bytes: 1_884_220, uploaded_by: "usr_made", uploaded_at: "2026-07-18T10:00:00+08:00", source: "web", duplicate_suspect: false },
   { id: "att_45", storage_path: "demo/master/foto-jadi-mj-220.jpg", url: null, filename: "foto-jadi-mj-220.jpg", sha256: "77cc1290bb31", mime: "image/jpeg", bytes: 2_104_338, uploaded_by: "usr_made", uploaded_at: "2026-07-30T15:20:00+08:00", source: "web", duplicate_suspect: false },
   { id: "att_46", storage_path: "demo/master/gambar-kerja-lm-3p.pdf", url: null, filename: "gambar-kerja-lm-3p.pdf", sha256: "3390aa7712bc", mime: "application/pdf", bytes: 1_442_009, uploaded_by: "usr_made", uploaded_at: "2026-08-20T09:40:00+08:00", source: "web", duplicate_suspect: false },
-  { id: "att_42", storage_path: "demo/2026-09/lembur-andi-010926.png", url: null, filename: "lembur-andi-010926.png", sha256: "ff8123aa5501", mime: "image/png", bytes: 388_112, uploaded_by: "usr_andi", uploaded_at: "2026-09-01T21:41:00+08:00", source: "web", duplicate_suspect: false },
-  { id: "att_43", storage_path: "demo/2026-09/lembur-andi-020926.png", url: null, filename: "lembur-andi-020926.png", sha256: "cd90aa112288", mime: "image/png", bytes: 201_553, uploaded_by: "usr_andi", uploaded_at: "2026-09-02T22:11:00+08:00", source: "web", duplicate_suspect: false },
+  { id: "att_34", storage_path: "demo/2026-09/lembur-andi-010926.png", url: null, filename: "lembur-andi-010926.png", sha256: "ff8123aa5501", mime: "image/png", bytes: 388_112, uploaded_by: "usr_andi", uploaded_at: "2026-09-01T21:41:00+08:00", source: "web", duplicate_suspect: false },
+  { id: "att_35", storage_path: "demo/2026-09/lembur-andi-020926.png", url: null, filename: "lembur-andi-020926.png", sha256: "cd90aa112288", mime: "image/png", bytes: 201_553, uploaded_by: "usr_andi", uploaded_at: "2026-09-02T22:11:00+08:00", source: "web", duplicate_suspect: false },
+  /* The nota behind each log purchase. `timber.ts` has pointed at these three
+     ids since M27 and nothing has ever defined them (F98): a purchase of
+     Rp 54.700.000 whose receipt the screen offers and cannot open. Defined
+     rather than unpointed, because the record asserts a nota exists and the
+     three loads were really bought. */
+  { id: "att_50", storage_path: "demo/2026-07/nota-log-jati-120726.jpg", url: null, filename: "nota-log-jati-120726.jpg", sha256: "7c31aa0912bd", mime: "image/jpeg", bytes: 498_220, uploaded_by: "usr_made", uploaded_at: "2026-07-12T16:20:00+08:00", source: "web", duplicate_suspect: false },
+  { id: "att_51", storage_path: "demo/2026-08/nota-log-jati-050826.jpg", url: null, filename: "nota-log-jati-050826.jpg", sha256: "8d42bb1023ce", mime: "image/jpeg", bytes: 455_118, uploaded_by: "usr_made", uploaded_at: "2026-08-05T15:05:00+08:00", source: "web", duplicate_suspect: false },
+  { id: "att_52", storage_path: "demo/2026-08/nota-log-jati-260826.jpg", url: null, filename: "nota-log-jati-260826.jpg", sha256: "9e53cc2134df", mime: "image/jpeg", bytes: 471_903, uploaded_by: "usr_made", uploaded_at: "2026-08-26T14:40:00+08:00", source: "web", duplicate_suspect: false },
+  /* Trisno's own kartu keluarga. `edc_28` pointed at `att_42`, which is
+     Sumiati's — one family card standing in for two people's files (F98). */
+  { id: "att_36", storage_path: "drive/berkas-201/emp_w012/kk-trisno.jpg", url: null, filename: "kk-trisno.jpg", sha256: "e15b62cd8a04", mime: "image/jpeg", bytes: 598_330, uploaded_by: "usr_wulan", uploaded_at: "2026-09-10T14:22:00+08:00", source: "web", duplicate_suspect: false },
 ];
 
 export const ATTACHMENT_LINKS: AttachmentLink[] = [
   /* HR evidence. The surat dokter is what makes a sick day a paid one (D144);
    * the surat lembur is what leadership is actually signing (D145). Same road
    * as every other document here: uploaded once, linked by a named person. */
-  { id: "lnk_40", attachment_id: "att_40", entity: "day_mark", entity_no: "dmk_03", kind: "Surat Dokter", linked_by: "usr_wulan", linked_at: "2026-09-02T09:10:00+08:00" },
-  { id: "lnk_41", attachment_id: "att_41", entity: "overtime", entity_no: "lbr_01", kind: "Surat Lembur", linked_by: "usr_wulan", linked_at: "2026-09-01T08:20:00+08:00" },
+  { id: "lnk_40", attachment_id: "att_32", entity: "day_mark", entity_no: "dmk_03", kind: "Surat Dokter", linked_by: "usr_wulan", linked_at: "2026-09-02T09:10:00+08:00" },
+  { id: "lnk_41", attachment_id: "att_33", entity: "overtime", entity_no: "lbr_01", kind: "Surat Lembur", linked_by: "usr_wulan", linked_at: "2026-09-01T08:20:00+08:00" },
   /* A staff session's evidence is the screenshot of what they were doing —
    * the report itself, not a signed form (D146). */
   /* Master data: what the workshop builds from, and what the client was shown
@@ -88,8 +99,8 @@ export const ATTACHMENT_LINKS: AttachmentLink[] = [
   { id: "lnk_44", attachment_id: "att_44", entity: "product", entity_no: "PRD-MJ-220", kind: "Gambar Kerja", linked_by: "usr_made", linked_at: "2026-07-18T10:02:00+08:00" },
   { id: "lnk_45", attachment_id: "att_45", entity: "product", entity_no: "PRD-MJ-220", kind: "Gambar Jadi", linked_by: "usr_made", linked_at: "2026-07-30T15:22:00+08:00" },
   { id: "lnk_46", attachment_id: "att_46", entity: "product", entity_no: "PRD-LM-3P", kind: "Gambar Kerja", linked_by: "usr_made", linked_at: "2026-08-20T09:42:00+08:00" },
-  { id: "lnk_42", attachment_id: "att_42", entity: "overtime", entity_no: "lbr_02", kind: "Laporan Lembur", linked_by: "usr_andi", linked_at: "2026-09-01T21:42:00+08:00" },
-  { id: "lnk_43", attachment_id: "att_43", entity: "overtime", entity_no: "lbr_03", kind: "Laporan Lembur", linked_by: "usr_andi", linked_at: "2026-09-02T22:12:00+08:00" },
+  { id: "lnk_42", attachment_id: "att_34", entity: "overtime", entity_no: "lbr_02", kind: "Laporan Lembur", linked_by: "usr_andi", linked_at: "2026-09-01T21:42:00+08:00" },
+  { id: "lnk_43", attachment_id: "att_35", entity: "overtime", entity_no: "lbr_03", kind: "Laporan Lembur", linked_by: "usr_andi", linked_at: "2026-09-02T22:12:00+08:00" },
 
   { id: "lnk_01", attachment_id: "att_01", entity: "transaction", entity_no: "trx-26-08-20_003", kind: "Receipt / Invoice / Nota", linked_by: "usr_putri", linked_at: "2026-08-20T16:06:00+08:00" },
   { id: "lnk_02", attachment_id: "att_02", entity: "transaction", entity_no: "trx-26-08-20_003", kind: "Payment Proof", linked_by: "usr_putri", linked_at: "2026-08-20T16:09:00+08:00" },
@@ -110,8 +121,8 @@ export const ATTACHMENT_LINKS: AttachmentLink[] = [
      (att_05) proves only the bank row, because it is evidence of one payment.
      A transfer proof attached to a cash payment would be a document claiming
      something it cannot say. */
-  { id: "lnk_40", attachment_id: "att_43", entity: "transaction", entity_no: "trx-26-08-28_002", kind: "Receipt / Invoice / Nota", linked_by: "usr_anggun", linked_at: "2026-08-28T15:45:00+08:00" },
-  { id: "lnk_41", attachment_id: "att_43", entity: "transaction", entity_no: "trx-26-08-29_002", kind: "Receipt / Invoice / Nota", linked_by: "usr_anggun", linked_at: "2026-08-29T16:28:00+08:00" },
+  { id: "lnk_47", attachment_id: "att_43", entity: "transaction", entity_no: "trx-26-08-28_002", kind: "Receipt / Invoice / Nota", linked_by: "usr_anggun", linked_at: "2026-08-28T15:45:00+08:00" },
+  { id: "lnk_48", attachment_id: "att_43", entity: "transaction", entity_no: "trx-26-08-29_002", kind: "Receipt / Invoice / Nota", linked_by: "usr_anggun", linked_at: "2026-08-29T16:28:00+08:00" },
   { id: "lnk_08", attachment_id: "att_06", entity: "transaction", entity_no: "trx-26-08-29_003", kind: "Payment Proof", linked_by: "usr_anggun", linked_at: "2026-08-29T16:31:00+08:00" },
   { id: "lnk_09", attachment_id: "att_07", entity: "transaction", entity_no: "trx-26-08-21_002", kind: "Payment Proof", linked_by: "usr_putri", linked_at: "2026-08-21T16:16:00+08:00" },
   { id: "lnk_10", attachment_id: "att_08", entity: "receipt", entity_no: "rcv-26-09-02_01", kind: "Receiving Item", linked_by: "usr_made", linked_at: "2026-09-02T09:46:00+08:00" },
@@ -126,7 +137,7 @@ export const ATTACHMENT_LINKS: AttachmentLink[] = [
      inbox row read *belum menopang baris mana pun* — a posting with no
      evidence travelling with it, which is exactly what D85 forbids and what
      the runtime flow does attach. The seed was the only place it was untrue. */
-  { id: "lnk_42", attachment_id: "att_14", entity: "transaction", entity_no: "trx-26-09-07_001", kind: "Receipt / Invoice / Nota", linked_by: "usr_anggun", linked_at: "2026-09-02T18:40:00+08:00" },
+  { id: "lnk_49", attachment_id: "att_14", entity: "transaction", entity_no: "trx-26-09-07_001", kind: "Receipt / Invoice / Nota", linked_by: "usr_anggun", linked_at: "2026-09-02T18:40:00+08:00" },
   { id: "lnk_22", attachment_id: "att_20", entity: "transaction", entity_no: "trx-26-07-31_001", kind: "Payment Proof", linked_by: "usr_putri", linked_at: "2026-07-31T16:06:00+08:00" },
   { id: "lnk_23", attachment_id: "att_21", entity: "transaction", entity_no: "trx-26-08-10_001", kind: "Payment Proof", linked_by: "usr_putri", linked_at: "2026-08-10T16:06:00+08:00" },
   { id: "lnk_24", attachment_id: "att_22", entity: "transaction", entity_no: "trx-26-08-19_002", kind: "Payment Proof", linked_by: "usr_putri", linked_at: "2026-08-19T16:06:00+08:00" },

@@ -4125,3 +4125,80 @@ existed to save. It names every one now.
 
 Ten minutes is too slow for every push, so it runs on pull requests and on
 `main`, where a slow answer is still a useful one.
+
+## F98 — four keys that were two things each, and three that were nothing
+
+F97 swept every screen and found nothing, which was the honest answer and not a
+satisfying one. So this went after the one class of bug that has actually bitten
+this project, twice, and that nothing has ever checked: **the seed's own keys.**
+
+- **F84** — two progress rows sharing a primary key, invisible for six
+  milestones because nothing had ever dereferenced one.
+- **F86** — nine stock issues pointing at two work orders that never existed,
+  invisible for six milestones because nothing had ever joined a stock move to a
+  work order.
+
+Both were found by reading. Reading is not a method. Three hundred lines of
+scanning found four more of the first kind and three of the second.
+
+### Eight ids, each declared twice
+
+`ATTACHMENTS` is one array, and two blocks in it had been numbered
+independently. `att_40` was **both** `ktp-karjo.jpg`, an identity document in
+somebody's berkas 201, **and** `surat-dokter-siti.jpg`. Same for `att_41`
+(a KTP and an overtime letter), `att_42` (a kartu keluarga and an overtime
+report) and `att_43` (a plywood invoice and another overtime report). Three
+`lnk_` ids and one `inb_` id were duplicated too.
+
+Lookup is `.find()`, so the first one wins and the rest are unreachable. The
+first one is always the berkas-201 file. Which means the evidence chip on a sick
+day, labelled **Surat Dokter**, opened an employee's KTP — and the overtime
+letters, the thing D145 refuses an approval without, opened a KTP and a family
+card.
+
+This is **F88 six weeks on**: *a label nobody could open is a label nobody could
+check*. B2 made those chips openable, and F88 caught a mislabelled file within a
+minute of it. What neither caught is that a chip can be openable, correctly
+labelled, wired to the right id, and still open somebody else's document —
+because the id was never the unique thing everything assumed it was.
+
+### Three references to attachments that do not exist
+
+`timber.ts` has pointed three log purchases at `att_50`, `att_51` and `att_52`
+since M27. None was ever defined. A load of teak costing Rp 54.700.000 offers its
+nota and has nothing behind it. They are **defined** rather than unpointed: the
+record asserts a receipt exists and the wood was really bought, so the fix is to
+make the claim true, not to withdraw it (F86 took the same view of the stock
+issues).
+
+One more in passing: `edc_28` gave Trisno's kartu keluarga as `att_42`, which is
+Sumiati's file — one family card standing in for two people's records.
+
+### The check, and the two ways it was wrong first
+
+`npm run check:fixtures`, no server needed. It got the same treatment F96 and
+F97 earned: it was wrong twice before it was right, and both times it was
+*confident*.
+
+Reading only `id: "X"` made it report **thirteen** perfectly good PR lines as
+dangling, because `pr.ts` seeds its lines as tuples — `["doc_06", "prl_0601", …]`
+— where the id is a bare string. Thirteen false alarms is a check nobody reads
+(F92). Counting every bare string as a definition then fixed that and broke the
+other half: `lgp_03` appeared ten times and read as ten records with one id.
+
+The answer was that **the two questions need different evidence**, and saying so
+was the whole fix. A duplicate key is only meaningful where a row *declares*
+one, so duplicates are counted from `id:` alone. A dangling reference is the
+opposite — anything that could be a definition must count, or every tuple breaks.
+The generosity has a price, and the file states it rather than implying coverage
+it does not have: a dangling reference whose value also appears bare inside some
+tuple will not be caught.
+
+The prefixes are read off the ids the seed actually declares, so a new kind of
+record is covered the day somebody adds one, without anybody remembering to say
+so. And the floor from F96 and F97 is here too: fewer than a hundred ids means
+the check did not read the fixtures, which is not the same as the fixtures being
+clean.
+
+Both branches were exercised before it was trusted — a reference repointed at
+`att_99`, a vendor given a neighbour's id — and both restored.

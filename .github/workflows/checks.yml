@@ -38,6 +38,12 @@ jobs:
       - name: API seam conformance
         run: npm run check:api
 
+      # Duplicate keys and dangling references in the seed. Two bugs of this
+      # shape (F84, F86) were found by accident after six milestones each; this
+      # one found four more (F98). It needs nothing running, so it is cheap.
+      - name: Fixture integrity
+        run: npm run check:fixtures
+
       - name: Build
         run: npm run build
 
