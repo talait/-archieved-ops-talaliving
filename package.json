@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "next lint",
     "check:api": "node scripts/api-conformance.mjs",
-    "check:refusals": "node scripts/refusal-probe.mjs"
+    "check:refusals": "node scripts/refusal-probe.mjs",
+    "check:routes": "node scripts/route-sweep.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.2",

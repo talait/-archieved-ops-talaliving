@@ -77,7 +77,10 @@ Three things make it work:
 5. Update the board **in the same commit** as the work.
 6. **Run the checks, and report what they said rather than that you ran them.**
    `npm run lint`, `npx tsc --noEmit`, `npm run build`, `npm run check:api`, and
-   `npm run check:refusals` against a running app. They are also a CI workflow
+   `npm run check:refusals` and `npm run check:routes` against a running app
+   (the last is the slow one — ten minutes, 179 account-and-route combinations,
+   and the only check that looks at the app as somebody other than whoever
+   wrote the screen). They are also a CI workflow
    now (`.github/workflows/checks.yml`), because for sixty-three milestones every
    one of these was manual, typed once, and gone (F96).
 7. Push. Report the preview link.

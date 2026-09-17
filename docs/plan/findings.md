@@ -4063,3 +4063,65 @@ page with no probe table, it exits 1 and names which of the three causes it is;
 with one probe's expectation deliberately falsified, it exits 1 and prints the
 probe and what it actually got. F95's lesson again, and it keeps being needed:
 **a check that has never failed for the right reason has not been checked.**
+
+## F97 — three sweeps that reported success while measuring nothing
+
+Four milestones of hardening in a row is three too many if none of them ever
+looks at the product. So this one went looking for something actually broken:
+every route, opened, watched for a page error, a 404, a blank render.
+
+**It found nothing.** Sixty-three routes, all clean. That is the honest result
+and it is written here rather than dressed up as a finding.
+
+The interesting part is what the sweep could not see, and how long it took to
+admit it.
+
+**A single-user sweep is blind to the bug it most needs to catch.** F61 was
+*nobody in the seed could open these screens at all* — three finished screens
+nobody had permission to reach, invisible because every check had been run as
+whoever was building. The sidebar filters itself with `can(permission)`, so each
+of the eight accounts sees a different app: between 11 and 50 links. A menu item
+that leads somewhere its owner cannot open is that bug again, and one pass as
+one user cannot find it. This project has only ever had one-user passes.
+
+The per-account sweep is now real: **179 account-and-route combinations, all
+clean.** Also an honest nothing.
+
+Getting to that number took three tries, and all three failures had the same
+face — a confident **0 problems**:
+
+1. Names read from the avatar, so the eight accounts were `E, P, A, G, A, M, W, I`
+   and every one of them reported exactly **one** nav link. Passed.
+2. The one link was real: the sidebar's sections are **collapsible**, and a
+   closed section renders no links at all. Expanding them first turned 1 into
+   11–50. Passed before, and had measured a twentieth of the app.
+3. Speeding the sweep up with `domcontentloaded` instead of `networkidle` then
+   reported **nine blank pages** — false this time in the other direction,
+   because client-rendered screens had not painted yet. Nine bugs that were not
+   there, which is the same defect as zero bugs that were.
+
+None of the three looked like an error. They looked like good news. **A check
+that cannot fail and a check that passes produce identical output**, and the only
+thing that separated them was a number being too tidy to believe: eight accounts
+cannot all have exactly one menu item.
+
+So the floors are part of the check now — fewer than two accounts, or fewer than
+three links for an account, is a **failure to measure**, reported as a failure.
+F96 said an empty list of failures and a failure to look are the same output;
+this is that, one level up, and it needed saying twice in two days.
+
+Two routes did get flagged, and both are correct behaviour: `/` redirects to
+`/dashboard`, and `/inventory/papan` redirects to `/inventory/log` because D202
+merged sawn boards into the timber module and kept the old route — it is in
+people's history. They are declared in `INTENTIONAL_REDIRECTS` with their
+reasons, on the same ratchet as `KNOWN_GAP`: a **new** redirect fails until
+somebody writes down why it exists. Leaving them to flag every run would have
+taught everybody to skim past the output, which is F92 in a different costume.
+
+One more thing the sweep did to itself: it reported `2 problems` and **did not
+say which two**, because the first phase collected them and only printed a count.
+Finding out meant reproducing the whole run by hand — most of the work the check
+existed to save. It names every one now.
+
+Ten minutes is too slow for every push, so it runs on pull requests and on
+`main`, where a slow answer is still a useful one.
